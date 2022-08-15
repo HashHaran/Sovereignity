@@ -1,0 +1,13 @@
+type Content @entity {
+  id: ID!
+  owner: Bytes! # address
+  creationTimeStamp: BigInt!
+  permissions: [ContentPermission!]! @derivedFrom(field: "content")
+}
+
+type ContentPermission @entity {
+  id: Bytes!
+  content: Content!
+  permittedUser: Bytes!
+  permittedTimeStamp: BigInt!
+}
