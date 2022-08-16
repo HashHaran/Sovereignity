@@ -17,11 +17,9 @@ const rows = [
     createData('Top Secret 2', '237KB', 'bafydfjsnf8874r80djkhkjsdfh88eyy7r4rehefvbi3', 'Uploaded', '14-08-2022 19:11'),
 ];
 
-function MyFilesTable() {
+function MyFilesTable(props) {
 
-    const [selected, setSelected] = React.useState();
-
-    const isSelected = (cid) => selected === cid;
+    const isSelected = (cid) => props.selected === cid;
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -46,7 +44,10 @@ function MyFilesTable() {
                                         key={row.cid}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         hover
-                                        onClick={(event) => setSelected(row.cid)}
+                                        onClick={(event) => {
+                                            props.setSelected(row.cid);
+                                            props.setSelectedFileName(row.name);
+                                        }}
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}

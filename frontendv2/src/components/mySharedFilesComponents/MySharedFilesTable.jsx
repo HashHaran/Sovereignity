@@ -22,13 +22,13 @@ function MySharedFilesTable(props) {
 
     const [selected, setSelected] = React.useState();
 
-    const isSelected = (cid) => selected === cid;
+    const isSelected = (userPublicKey) => selected === userPublicKey;
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10 }}>
             <Box sx={{ width: '60%', mr: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'right', mb: 2 }}>
-                    <Button variant='outlined'><PersonRemoveIcon sx={{ mr: 1 }} />Revoke Permission</Button>
+                    <Button variant='contained'><PersonRemoveIcon sx={{ mr: 1 }} />Revoke Permission</Button>
                 </Box>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -43,13 +43,13 @@ function MySharedFilesTable(props) {
                         </TableHead>
                         <TableBody>
                             {rows.map((row) => {
-                                const isItemSelected = isSelected(row.cid);
+                                const isItemSelected = isSelected(row.userPublicKey);
                                 return (
                                     <TableRow
-                                        key={row.cid}
+                                        key={row.cid.concat(row.userPublicKey)}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         hover
-                                        onClick={(event) => setSelected(row.cid)}
+                                        onClick={(event) => setSelected(row.userPublicKey)}
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}

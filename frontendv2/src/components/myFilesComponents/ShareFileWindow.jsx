@@ -29,7 +29,7 @@ function ShareFileWindow(props) {
                     }}
                 >
                     <Typography sx={{ ml: 1 }} id="modal-modal-title" variant="h6">
-                        Share File: bafy9898798fhjf87974oehkdhf
+                        Share File: {props.selected}
                     </Typography>
                 </Box>
                 <Box
@@ -54,7 +54,7 @@ function ShareFileWindow(props) {
                     />
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button sx={{ mb: 2, mt: 2 }} variant='outlined'>Share</Button>
+                    <Button sx={{ mb: 2, mt: 2 }} variant='contained'>Share</Button>
                 </Box>
             </Box>
         </Modal></div>

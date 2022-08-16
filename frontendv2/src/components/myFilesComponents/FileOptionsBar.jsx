@@ -12,12 +12,12 @@ function FileOptionsBar(props) {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box sx={{ width: '60%', display: 'flex', justifyContent: 'right' }}>
-                <Button onClick={props.handleFileSharingWindowOpen} variant='outlined'><ShareIcon />Share</Button>
+                <Button onClick={props.handleFileSharingWindowOpen} variant='contained'><ShareIcon />Share</Button>
                 <Button onClick={(event) => {
                     event.preventDefault();
-                    navigate('/mySharedFiles/bafy74768787iegfsdgf87regfsgfwe');
-                }} variant='outlined'><ListIcon />Details</Button>
-                <Button variant='outlined'><FileDownloadIcon />Download</Button>
+                    navigate('/mySharedFiles/'.concat(props.selectedCid));
+                }} variant='contained'><ListIcon />Details</Button>
+                <Button variant='contained'><FileDownloadIcon />Download</Button>
             </Box>
         </Box>
     )

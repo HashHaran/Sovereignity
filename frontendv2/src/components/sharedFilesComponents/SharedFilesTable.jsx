@@ -28,7 +28,7 @@ function SharedFilesTable(props) {
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10 }}>
             <Box sx={{ width: '60%', mr: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'right', mb: 2 }}>
-                    <Button variant='outlined'><FileDownloadIcon sx={{ mr: 1 }} />Download</Button>
+                    <Button variant='contained'><FileDownloadIcon sx={{ mr: 1 }} />Download</Button>
                 </Box>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
