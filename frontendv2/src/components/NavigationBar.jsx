@@ -3,7 +3,7 @@ import React from 'react'
 import NavLinks from './navBarComponents/NavLinks'
 import WalletConnectButton from './navBarComponents/WalletConnectButton'
 
-function NavigationBar() {
+function NavigationBar(props) {
     return (
         <div>
             <AppBar>
@@ -12,7 +12,7 @@ function NavigationBar() {
                         Sovereignity
                     </Typography>
                     <NavLinks />
-                    <WalletConnectButton />
+                    <WalletConnectButton setProvider={props.setProvider} />
                 </Toolbar>
             </AppBar>
         </div >
