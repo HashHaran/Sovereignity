@@ -20,7 +20,7 @@ function App() {
         <Box sx={{ height: '150px' }} />
         {/* <Button onClick={printProvider} variant='outlined'>Chumma Test</Button> */}
         <Routes>
-          <Route path='/' element={<MyFiles />} />
+          <Route path='/' element={<MyFiles provider={provider} />} />
           <Route path='/shared' element={<SharedFiles />} />
           <Route path='/mySharedFiles/:cid' element={<MySharedFiles />} />
         </Routes>

@@ -17,7 +17,7 @@ function FileOptionsBar(props) {
                     event.preventDefault();
                     navigate('/mySharedFiles/'.concat(props.selectedCid));
                 }} variant='contained'><ListIcon />Details</Button>
-                <Button variant='contained'><FileDownloadIcon />Download</Button>
+                <Button onClick={props.handleFileDownload} variant='contained'><FileDownloadIcon />Download</Button>
             </Box>
         </Box>
     )

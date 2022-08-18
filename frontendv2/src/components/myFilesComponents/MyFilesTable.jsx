@@ -13,7 +13,7 @@ function createData(name, size, cid, status, storage, dateTime) {
 }
 
 const rows = [
-    createData('Top Secret 1', '100KB', 'bafyslsoof98yh9843hhf9w83ehkuw9e8fjdkhcksdjh', 'Pinned', '14-08-2022 19:11'),
+    createData('Top Secret 1', '100KB', 'bafybeib2c4vv7dxkqljyo3c5pmqlq5xrnk7qgnqlprmnlg3z4k2ooblzt4', 'Pinned', '14-08-2022 19:11'),
     createData('Top Secret 2', '237KB', 'bafydfjsnf8874r80djkhkjsdfh88eyy7r4rehefvbi3', 'Uploaded', '14-08-2022 19:11'),
 ];
 
