@@ -7,7 +7,7 @@ import { Web3Storage } from 'web3.storage/dist/bundle.esm.min.js'
 // console.log(process.env);
 
 const REACT_APP_WEB3_STORAGE_API_KEY = process.env.REACT_APP_WEB3_STORAGE_API_KEY;
-const REACT_APP_SOVEREIGNITY_MUMBAI = "0x341FEbb7431Fe373e6Afe2Adf0d9f46DB11e88DF";
+const REACT_APP_SOVEREIGNITY_MUMBAI = process.env.REACT_APP_SOVEREIGNITY_MUMBAI;
 
 if (!REACT_APP_WEB3_STORAGE_API_KEY) {
   throw new Error("Please set your WEB3_STORAGE_API_KEY in a .env file");

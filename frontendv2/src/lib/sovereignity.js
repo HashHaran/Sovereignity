@@ -12,6 +12,12 @@ const sovereignityAbi = [
         "type": "string"
       },
       {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
+        "type": "string"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "owner",
@@ -37,6 +43,12 @@ const sovereignityAbi = [
         "type": "string"
       },
       {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
+        "type": "string"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "owner",
@@ -59,6 +71,12 @@ const sovereignityAbi = [
         "indexed": true,
         "internalType": "string",
         "name": "contentId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
         "type": "string"
       },
       {
@@ -93,6 +111,12 @@ const sovereignityAbi = [
         "type": "string"
       },
       {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
+        "type": "string"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "owner",
@@ -121,6 +145,12 @@ const sovereignityAbi = [
         "indexed": true,
         "internalType": "string",
         "name": "contentId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
         "type": "string"
       },
       {
@@ -215,7 +245,7 @@ const sovereignityAbi = [
         "type": "bool"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -289,5 +319,13 @@ export class Sovereignity {
 
   async addContent(contentId) {
     await this.sovereignityContract.addContent(contentId);
+  }
+
+  async shareContent(contentId, userPublicKey) {
+    await this.sovereignityContract.awardPermission(contentId, userPublicKey);
+  }
+
+  async revokePermissionToContent(contentId, permittedUser) {
+    await this.sovereignityContract.revokePermission(contentId, permittedUser);
   }
 }

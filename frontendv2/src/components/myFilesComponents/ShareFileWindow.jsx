@@ -3,6 +3,8 @@ import React from 'react'
 
 function ShareFileWindow(props) {
 
+    const [userPublicKey, setUserPublicKey] = React.useState("0xF18Bb60E7Bd9BD65B61C57b9Dd89cfEb774274a1");
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -14,6 +16,10 @@ function ShareFileWindow(props) {
         boxShadow: 24,
         // p: 4,
     };
+
+    const onShareFileWithUser = () => {
+        props.onShareFileWithUser(userPublicKey);
+    }
 
     return (
         <div><Modal
@@ -45,16 +51,17 @@ function ShareFileWindow(props) {
                         Public Key of User:
                     </Typography>
                     <TextField
+                        onChange={setUserPublicKey}
                         required
                         id="outlined-required"
                         label="required"
-                        defaultValue="0x48948hgewyyw7wegwg774984977gkedfh978g"
+                        defaultValue={userPublicKey}
                         variant='outlined'
                         InputProps={{ sx: { height: 35, width: 400 } }}
                     />
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button sx={{ mb: 2, mt: 2 }} variant='contained'>Share</Button>
+                    <Button onClick={onShareFileWithUser} sx={{ mb: 2, mt: 2 }} variant='contained'>Share</Button>
                 </Box>
             </Box>
         </Modal></div>

@@ -27,25 +27,11 @@ function App() {
     setWeb3storage(new Web3storage(provider, setUploadProgress));
   }
 
-  useEffect(() => {
-    console.log(provider);
-    console.log(owner);
-    console.log(web3storage);
-  });
-
-  const cache = new InMemoryCache({
-    typePolicies: { // Type policy map
-      Content: {
-        fields: { // Field policy map for the Content type
-          web3StotrageStatus: { // Field policy for the web3StotrageStatus field
-            read(web3StotrageStatus, { variables }) { // The read function for the isInCart field
-              return web3storage.getStatus(variables.contentId);
-            }
-          }
-        }
-      }
-    }
-  });
+  // useEffect(() => {
+  //   console.log(provider);
+  //   console.log(owner);
+  //   console.log(web3storage);
+  // });
   
   const client = new ApolloClient({
     uri: THE_GRAPH_HOSTED_SERVICE_END_POINT,
@@ -61,7 +47,7 @@ function App() {
           <Routes>
             <Route path='/' element={<MyFiles provider={provider} owner={owner} uploadProgress={uploadProgress} web3storage={web3storage} />} />
             <Route path='/shared' element={<SharedFiles />} />
-            <Route path='/mySharedFiles/:cid' element={<MySharedFiles />} />
+            <Route path='/mySharedFiles/:cid' element={<MySharedFiles sovereignity = {web3storage?.sovereignity} />} />
           </Routes>
         </Router>
       </div >

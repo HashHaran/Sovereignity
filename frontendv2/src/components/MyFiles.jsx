@@ -35,6 +35,12 @@ function MyFiles(props) {
         props.web3storage.downloadDecryptedFile(selectedCid);
     }
 
+    const onShareFileWithUser = (userPublicKey) => {
+        props.web3storage?.sovereignity.shareContent(selectedCid, userPublicKey).then(() => {
+            console.log(`Content Shared with: ${userPublicKey}`);
+        });
+    }
+
     return (
         <React.Fragment>
             <ProgressBarUpload progress={props.uploadProgress} />
@@ -48,7 +54,7 @@ function MyFiles(props) {
                 /></Button>
             </Container>
             <FileOptionsBar handleFileSharingWindowOpen={handleFileSharingWindowOpen} selectedCid={selectedCid} handleFileDownload={handleFileDownload} />
-            <ShareFileWindow open={fileSharingWindowOpen} handleClose={handleFileSharingWindowClose} selected={selectedFileName} />
+            <ShareFileWindow open={fileSharingWindowOpen} handleClose={handleFileSharingWindowClose} selected={selectedFileName} onShareFileWithUser={onShareFileWithUser} />
             <MyFilesTable owner={props.owner} selected={selectedCid} setSelected={setSelectedCid} setSelectedFileName={setSelectedFileName} web3storage={props.web3storage} rows={rows} setRows={setRows} myFilesQueryCompleted={myFilesQueryCompleted} setMyFilesQueryCompleted={setMyFilesQueryCompleted} />
         </React.Fragment>
     )

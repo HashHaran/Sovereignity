@@ -2,12 +2,12 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import MySharedFilesTable from './MySharedFilesTable'
 
-function MySharedFiles() {
+function MySharedFiles(props) {
 
     let { cid } = useParams();
 
     return (
-        <MySharedFilesTable cid={cid} />
+        <MySharedFilesTable cid={cid} sovereignity={props.sovereignity} />
     )
 }
 

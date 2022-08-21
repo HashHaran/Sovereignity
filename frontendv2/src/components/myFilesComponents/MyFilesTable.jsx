@@ -8,11 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { useQuery, useLazyQuery, gql } from '@apollo/client';
-
-function createData(name, size, contentId, status, storage, dateTime) {
-    return { name, size, contentId, status, storage, dateTime };
-}
+import { useQuery, gql } from '@apollo/client';
+import { convertEpochTimeToDateTime } from '../../lib/helper';
 
 const GET_MY_FILES = gql`
     query GetMyFiles($owner: String!) {
@@ -85,12 +82,6 @@ function MyFilesTable(props) {
                 props.setMyFilesQueryCompleted(true);
             });
         };
-    }
-
-    const convertEpochTimeToDateTime = (epochTime) => {
-        var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-        d.setUTCSeconds(epochTime);
-        return d.toLocaleString();
     }
 
     const activeDealsCount = (deals) => {
@@ -166,8 +157,8 @@ function MyFilesTable(props) {
                     </Table>
                 </TableContainer>
                 {props.myFilesQueryCompleted && props.rows.length==0 && props.owner && !loading && !error && <React.Fragment><Box height={'30px'}></Box><Typography>You do not have any files uploaded to Sovereignity. Click on the upload button to get started.</Typography></React.Fragment>}
-                {props.myFilesQueryCompleted && !props.owner && <React.Fragment><Box height={'30px'}></Box><Typography>Conect with your wallet to see your files.</Typography></React.Fragment>}
-                {!props.myFilesQueryCompleted && (loading || props.rows.length==0) && <React.Fragment><Box height={'30px'}></Box><Typography>Loading...</Typography></React.Fragment>}
+                {!props.owner && <React.Fragment><Box height={'30px'}></Box><Typography>Conect with your wallet to see your files.</Typography></React.Fragment>}
+                {!props.myFilesQueryCompleted && (loading || props.rows.length==0) && props.owner && <React.Fragment><Box height={'30px'}></Box><Typography>Loading...</Typography></React.Fragment>}
                 {error && <React.Fragment><Box height={'30px'}></Box><Typography>Error while fetching your files from The Graph.</Typography></React.Fragment>}
             </Box>
         </Box>
