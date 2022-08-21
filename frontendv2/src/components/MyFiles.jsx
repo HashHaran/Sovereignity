@@ -6,46 +6,38 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import MyFilesTable from './myFilesComponents/MyFilesTable';
 import ShareFileWindow from './myFilesComponents/ShareFileWindow';
 import { Container } from '@mui/system';
-import Web3storage from '../lib/web3storage';
 
 function MyFiles(props) {
 
     const [selectedCid, setSelectedCid] = React.useState();
     const [selectedFileName, setSelectedFileName] = React.useState();
-    const [uploadProgress, setUploadProgress] = React.useState(0);
-
-    // useEffect(() => {
-    //     console.log(selectedCid);
-    // }, [selectedCid])
 
     const [fileSharingWindowOpen, setFileSharingWindowOpen] = React.useState(false);
+
+    const [rows, setRows] = React.useState([]);
+    const [myFilesQueryCompleted, setMyFilesQueryCompleted] = React.useState(false);
+
+
     const handleFileSharingWindowOpen = () => setFileSharingWindowOpen(true);
     const handleFileSharingWindowClose = () => setFileSharingWindowOpen(false);
-
-    let web3storage;
-    useEffect(() => {
-        if (props.provider) {
-            web3storage = new Web3storage(props.provider, setUploadProgress);
-        }
-    }, [props.provider]);
 
     const handleFileUpload = (e) => {
         if (!e.target.files) {
             return;
         }
         // console.log(e.target.files[0]);
-        web3storage.uploadEncryptedFileAndAddContent(e.target.files).then(() => {
+        props.web3storage.uploadEncryptedFileAndAddContent(e.target.files).then(() => {
             console.log('Done uploading and adding content');
         });
     };
 
     const handleFileDownload = (e) => {
-        web3storage.downloadDecryptedFile(selectedCid);
+        props.web3storage.downloadDecryptedFile(selectedCid);
     }
 
     return (
         <React.Fragment>
-            <ProgressBarUpload progress={uploadProgress} />
+            <ProgressBarUpload progress={props.uploadProgress} />
             <Container sx={{ mb: 4 }}>
                 {/* <Input classes={classes.fileInput} sx={{ mr: 4 }} onChange={handleFileUpload} type='file' color='primary'><FileUploadIcon /> Upload</Input> */}
                 <Button variant='contained' component="label"><FileUploadIcon /> Upload<input
@@ -57,7 +49,7 @@ function MyFiles(props) {
             </Container>
             <FileOptionsBar handleFileSharingWindowOpen={handleFileSharingWindowOpen} selectedCid={selectedCid} handleFileDownload={handleFileDownload} />
             <ShareFileWindow open={fileSharingWindowOpen} handleClose={handleFileSharingWindowClose} selected={selectedFileName} />
-            <MyFilesTable selected={selectedCid} setSelected={setSelectedCid} setSelectedFileName={setSelectedFileName} />
+            <MyFilesTable owner={props.owner} selected={selectedCid} setSelected={setSelectedCid} setSelectedFileName={setSelectedFileName} web3storage={props.web3storage} rows={rows} setRows={setRows} myFilesQueryCompleted={myFilesQueryCompleted} setMyFilesQueryCompleted={setMyFilesQueryCompleted} />
         </React.Fragment>
     )
 }

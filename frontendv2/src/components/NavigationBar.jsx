@@ -12,7 +12,7 @@ function NavigationBar(props) {
                         Sovereignity
                     </Typography>
                     <NavLinks />
-                    <WalletConnectButton setProvider={props.setProvider} />
+                    <WalletConnectButton setStuffBasedOnWallet={props.setStuffBasedOnWallet} />
                 </Toolbar>
             </AppBar>
         </div >

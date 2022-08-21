@@ -30,7 +30,8 @@ function WalletConnectButton(props) {
         let instance = await web3Modal.connect();
 
         const provider = new ethers.providers.Web3Provider(instance);
-        props.setProvider(provider);
+        const owner = await provider.getSigner().getAddress();
+        props.setStuffBasedOnWallet(provider, owner);
     }
 
     return (

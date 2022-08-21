@@ -1,5 +1,5 @@
 import { Box, Checkbox, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,18 +8,110 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-function createData(name, size, cid, status, storage, dateTime) {
-    return { name, size, cid, status, storage, dateTime };
+import { useQuery, useLazyQuery, gql } from '@apollo/client';
+
+function createData(name, size, contentId, status, storage, dateTime) {
+    return { name, size, contentId, status, storage, dateTime };
 }
 
-const rows = [
-    createData('Top Secret 1', '100KB', 'bafybeib2c4vv7dxkqljyo3c5pmqlq5xrnk7qgnqlprmnlg3z4k2ooblzt4', 'Pinned', '14-08-2022 19:11'),
-    createData('Top Secret 2', '237KB', 'bafydfjsnf8874r80djkhkjsdfh88eyy7r4rehefvbi3', 'Uploaded', '14-08-2022 19:11'),
-];
+const GET_MY_FILES = gql`
+    query GetMyFiles($owner: String!) {
+        contents(where: {owner: $owner}) {
+            id
+            contentId
+            creationTimeStamp
+        }
+}
+`;
 
 function MyFilesTable(props) {
 
-    const isSelected = (cid) => props.selected === cid;
+    const isSelected = (contentId) => props.selected === contentId;
+
+    // const onTheGraphQueryCompleted = (data) => {
+    //     let web3StatusPromises = [];
+    //     for (let content of data.contents) {
+    //         web3StatusPromises.push(props.web3storage.getStatus(content.contentId));
+    //     }
+    //     Promise.all(web3StatusPromises).then((statuses) => {
+    //         statuses.forEach((status, i) => {
+    //             let row = { content: data.contents[i] };
+    //             console.log("status");
+    //             console.log(status);
+    //             row.web3StorageStatus = status;
+    //             rows.push(row);
+    //             console.log("rows");
+    //             console.log(rows);
+    //         });
+    //         props.setMyFilesQueryCompleted(true);
+    //     });
+    // }
+
+    // const onTheGraphError = (error) => {
+    //     console.error(`Error during The Graph query: ${error}`);
+    // }
+                
+
+    let owner = props.owner;
+    console.log('Before firing query: %s', owner);
+    const { loading, error, data } = useQuery(GET_MY_FILES, {
+        variables: { owner },
+        skip: !props.owner,
+        // onCompleted: onTheGraphQueryCompleted,
+        // onError: onTheGraphError
+    });
+
+    if (props.rows.length==0 && props.owner) {
+        if (error) console.error(`Error during The Graph query: ${error}`);
+        if (data) {
+            console.log("data");
+            console.log(data);
+            let web3StatusPromises = [];
+            for (let content of data.contents) {
+                web3StatusPromises.push(props.web3storage.getStatus(content.contentId));
+            }
+            Promise.all(web3StatusPromises).then((statuses) => {
+                console.log("statuses");
+                console.log(statuses);
+                let rows = [];
+                statuses.forEach((status, i) => {
+                    let row = { content: data.contents[i] };
+                    row.web3StorageStatus = status;
+                    rows.push(row);
+                    console.log("rows");
+                    console.log(rows);
+                });
+                props.setRows(rows);
+                props.setMyFilesQueryCompleted(true);
+            });
+        };
+    }
+
+    const convertEpochTimeToDateTime = (epochTime) => {
+        var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+        d.setUTCSeconds(epochTime);
+        return d.toLocaleString();
+    }
+
+    const activeDealsCount = (deals) => {
+        let dealCount = 0;
+        for (let deal of deals) {
+            if (deal.status === 'Active') dealCount++;
+        }
+        return dealCount;
+    }
+
+    const summaryPinningStatus = (pins) => {
+        let pinStatusCount = {};
+        for (let pin of pins) {
+            if (pin.status === 'Pinned') return pin.status;
+            else {
+                pinStatusCount[pin.status]? pinStatusCount[pin.status]++: pinStatusCount[pin.status] = 1;
+            }
+        }
+        if (pinStatusCount['PinQueued'] && pinStatusCount['PinQueued'] > 0) return 'PinQueued';
+        return 'Unpinned';
+    }
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -32,20 +124,21 @@ function MyFilesTable(props) {
                                 <TableCell>File Name</TableCell>
                                 <TableCell align="right">Size</TableCell>
                                 <TableCell align="right">Content ID</TableCell>
-                                <TableCell align="right">Status</TableCell>
-                                <TableCell align="right">Date</TableCell>
+                                <TableCell align="right">Pinning Status</TableCell>
+                                <TableCell align="right">Filecoin Deals</TableCell>
+                                <TableCell align="right">Created Date</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => {
-                                const isItemSelected = isSelected(row.cid);
+                            {props.rows.map((row) => {
+                                const isItemSelected = isSelected(row.content.contentId);
                                 return (
                                     <TableRow
-                                        key={row.cid}
+                                        key={row.content.contentId}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         hover
                                         onClick={(event) => {
-                                            props.setSelected(row.cid);
+                                            props.setSelected(row.content.contentId);
                                             props.setSelectedFileName(row.name);
                                         }}
                                         role="checkbox"
@@ -61,17 +154,21 @@ function MyFilesTable(props) {
                                         <TableCell component="th" scope="row">
                                             {row.name}
                                         </TableCell>
-                                        <TableCell align="right">{row.size}</TableCell>
-                                        <TableCell component="th" scope="row" align="right">{row.cid}</TableCell>
-                                        <TableCell align="right">{row.status}</TableCell>
-                                        <TableCell align="right">{row.dateTime}</TableCell>
+                                        <TableCell align="right">{row.web3StorageStatus.dagSize}</TableCell>
+                                        <TableCell component="th" scope="row" align="right">{row.content.contentId}</TableCell>
+                                        <TableCell align="right">{summaryPinningStatus(row.web3StorageStatus.pins)}</TableCell>
+                                        <TableCell align="right">{activeDealsCount(row.web3StorageStatus.deals)}</TableCell>
+                                        <TableCell align="right">{convertEpochTimeToDateTime(row.content.creationTimeStamp)}</TableCell>
                                     </TableRow>
                                 );
                             })}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {rows.length == 0 && <React.Fragment><Box height={'30px'}></Box><Typography>You do not have any files uploaded to Sovereignity. Click on the upload button to get started.</Typography></React.Fragment>}
+                {props.myFilesQueryCompleted && props.rows.length==0 && props.owner && !loading && !error && <React.Fragment><Box height={'30px'}></Box><Typography>You do not have any files uploaded to Sovereignity. Click on the upload button to get started.</Typography></React.Fragment>}
+                {props.myFilesQueryCompleted && !props.owner && <React.Fragment><Box height={'30px'}></Box><Typography>Conect with your wallet to see your files.</Typography></React.Fragment>}
+                {!props.myFilesQueryCompleted && (loading || props.rows.length==0) && <React.Fragment><Box height={'30px'}></Box><Typography>Loading...</Typography></React.Fragment>}
+                {error && <React.Fragment><Box height={'30px'}></Box><Typography>Error while fetching your files from The Graph.</Typography></React.Fragment>}
             </Box>
         </Box>
     )
