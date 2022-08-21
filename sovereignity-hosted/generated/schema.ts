@@ -42,6 +42,15 @@ export class Content extends Entity {
     this.set("id", Value.fromBytes(value));
   }
 
+  get contentId(): string {
+    let value = this.get("contentId");
+    return value!.toString();
+  }
+
+  set contentId(value: string) {
+    this.set("contentId", Value.fromString(value));
+  }
+
   get owner(): Bytes {
     let value = this.get("owner");
     return value!.toBytes();

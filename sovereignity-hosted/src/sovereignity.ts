@@ -23,6 +23,8 @@ export function handleContentCreation(event: ContentCreation): void {
   log.info("After new Content", []);
   // Entity fields can be set using simple assignments
 
+  contentEntity.contentId = event.params.contentIdString;
+
   // BigInt and BigDecimal math are supported
   contentEntity.owner = event.params.owner;
 
@@ -92,6 +94,7 @@ export function createContentCreationEvent(contentId: string, owner: string, tim
   );
   newContentCreationEvent.parameters = new Array();
   let contentIdParam = new ethereum.EventParam('contentId', ethereum.Value.fromBytes(Bytes.fromUTF8(contentId)));
+  let contentIdStringParam = new ethereum.EventParam('contentIdString', ethereum.Value.fromString(contentId));
   let ownerParam = new ethereum.EventParam(
     'owner',
     ethereum.Value.fromAddress(Address.fromString(owner))
@@ -99,6 +102,7 @@ export function createContentCreationEvent(contentId: string, owner: string, tim
   let timeStampParam = new ethereum.EventParam('timeStamp', ethereum.Value.fromUnsignedBigInt(timeStamp));
 
   newContentCreationEvent.parameters.push(contentIdParam);
+  newContentCreationEvent.parameters.push(contentIdStringParam);
   newContentCreationEvent.parameters.push(ownerParam);
   newContentCreationEvent.parameters.push(timeStampParam);
 
@@ -120,6 +124,7 @@ export function createPermissionRevokedEvent(contentId: string, owner: string, u
   );
   newPermissionRevokedEvent.parameters = new Array();
   let contentIdParam = new ethereum.EventParam('contentId', ethereum.Value.fromBytes(Bytes.fromUTF8(contentId)));
+  let contentIdStringParam = new ethereum.EventParam('contentIdString', ethereum.Value.fromString(contentId));
   let ownerParam = new ethereum.EventParam(
     'owner',
     ethereum.Value.fromAddress(Address.fromString(owner))
@@ -131,6 +136,7 @@ export function createPermissionRevokedEvent(contentId: string, owner: string, u
   let timeStampParam = new ethereum.EventParam('timeStamp', ethereum.Value.fromUnsignedBigInt(timeStamp));
 
   newPermissionRevokedEvent.parameters.push(contentIdParam);
+  newPermissionRevokedEvent.parameters.push(contentIdStringParam);
   newPermissionRevokedEvent.parameters.push(ownerParam);
   newPermissionRevokedEvent.parameters.push(userParam);
   newPermissionRevokedEvent.parameters.push(timeStampParam);
@@ -152,6 +158,7 @@ export function createPermissionGrantedEvent(contentId: string, owner: string, u
   );
   newPermissionGrantedEvent.parameters = new Array();
   let contentIdParam = new ethereum.EventParam('contentId', ethereum.Value.fromBytes(Bytes.fromUTF8(contentId)));
+  let contentIdStringParam = new ethereum.EventParam('contentIdString', ethereum.Value.fromString(contentId));
   let ownerParam = new ethereum.EventParam(
     'owner',
     ethereum.Value.fromAddress(Address.fromString(owner))
@@ -163,6 +170,7 @@ export function createPermissionGrantedEvent(contentId: string, owner: string, u
   let timeStampParam = new ethereum.EventParam('timeStamp', ethereum.Value.fromUnsignedBigInt(timeStamp));
 
   newPermissionGrantedEvent.parameters.push(contentIdParam);
+  newPermissionGrantedEvent.parameters.push(contentIdStringParam);
   newPermissionGrantedEvent.parameters.push(ownerParam);
   newPermissionGrantedEvent.parameters.push(userParam);
   newPermissionGrantedEvent.parameters.push(timeStampParam);
@@ -185,6 +193,7 @@ export function createContentDeletionEvent(contentId: string, owner: string, tim
   );
   newContentDeletionEvent.parameters = new Array();
   let contentIdParam = new ethereum.EventParam('contentId', ethereum.Value.fromBytes(Bytes.fromUTF8(contentId)));
+  let contentIdStringParam = new ethereum.EventParam('contentIdString', ethereum.Value.fromString(contentId));
   let ownerParam = new ethereum.EventParam(
     'owner',
     ethereum.Value.fromAddress(Address.fromString(owner))
@@ -192,6 +201,7 @@ export function createContentDeletionEvent(contentId: string, owner: string, tim
   let timeStampParam = new ethereum.EventParam('timeStamp', ethereum.Value.fromUnsignedBigInt(timeStamp));
 
   newContentDeletionEvent.parameters.push(contentIdParam);
+  newContentDeletionEvent.parameters.push(contentIdStringParam);
   newContentDeletionEvent.parameters.push(ownerParam);
   newContentDeletionEvent.parameters.push(timeStampParam);
 
@@ -212,6 +222,7 @@ export function createOwnershipTransferedEvent(contentId: string, owner: string,
   );
   newOwnershipTransferedEvent.parameters = new Array();
   let contentIdParam = new ethereum.EventParam('contentId', ethereum.Value.fromBytes(Bytes.fromUTF8(contentId)));
+  let contentIdStringParam = new ethereum.EventParam('contentIdString', ethereum.Value.fromString(contentId));
   let ownerParam = new ethereum.EventParam(
     'owner',
     ethereum.Value.fromAddress(Address.fromString(owner))
@@ -223,6 +234,7 @@ export function createOwnershipTransferedEvent(contentId: string, owner: string,
   let timeStampParam = new ethereum.EventParam('timeStamp', ethereum.Value.fromUnsignedBigInt(timeStamp));
 
   newOwnershipTransferedEvent.parameters.push(contentIdParam);
+  newOwnershipTransferedEvent.parameters.push(contentIdStringParam);
   newOwnershipTransferedEvent.parameters.push(ownerParam);
   newOwnershipTransferedEvent.parameters.push(newOwnerParam);
   newOwnershipTransferedEvent.parameters.push(timeStampParam);

@@ -27,12 +27,16 @@ export class ContentCreation__Params {
     return this._event.parameters[0].value.toBytes();
   }
 
+  get contentIdString(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
   get owner(): Address {
-    return this._event.parameters[1].value.toAddress();
+    return this._event.parameters[2].value.toAddress();
   }
 
   get timeStamp(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -53,12 +57,16 @@ export class ContentDeletion__Params {
     return this._event.parameters[0].value.toBytes();
   }
 
+  get contentIdString(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
   get owner(): Address {
-    return this._event.parameters[1].value.toAddress();
+    return this._event.parameters[2].value.toAddress();
   }
 
   get timeStamp(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -79,16 +87,20 @@ export class OwnershipTransfered__Params {
     return this._event.parameters[0].value.toBytes();
   }
 
-  get owner(): Address {
-    return this._event.parameters[1].value.toAddress();
+  get contentIdString(): string {
+    return this._event.parameters[1].value.toString();
   }
 
-  get newOwner(): Address {
+  get owner(): Address {
     return this._event.parameters[2].value.toAddress();
   }
 
+  get newOwner(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
   get timeStamp(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
+    return this._event.parameters[4].value.toBigInt();
   }
 }
 
@@ -109,16 +121,20 @@ export class PermissionGranted__Params {
     return this._event.parameters[0].value.toBytes();
   }
 
-  get owner(): Address {
-    return this._event.parameters[1].value.toAddress();
+  get contentIdString(): string {
+    return this._event.parameters[1].value.toString();
   }
 
-  get user(): Address {
+  get owner(): Address {
     return this._event.parameters[2].value.toAddress();
   }
 
+  get user(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
   get timeStamp(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
+    return this._event.parameters[4].value.toBigInt();
   }
 }
 
@@ -139,16 +155,20 @@ export class PermissionRevoked__Params {
     return this._event.parameters[0].value.toBytes();
   }
 
-  get owner(): Address {
-    return this._event.parameters[1].value.toAddress();
+  get contentIdString(): string {
+    return this._event.parameters[1].value.toString();
   }
 
-  get user(): Address {
+  get owner(): Address {
     return this._event.parameters[2].value.toAddress();
   }
 
+  get user(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
   get timeStamp(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
+    return this._event.parameters[4].value.toBigInt();
   }
 }
 

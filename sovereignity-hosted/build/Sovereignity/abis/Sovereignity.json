@@ -9,6 +9,12 @@
         "type": "string"
       },
       {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
+        "type": "string"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "owner",
@@ -34,6 +40,12 @@
         "type": "string"
       },
       {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
+        "type": "string"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "owner",
@@ -56,6 +68,12 @@
         "indexed": true,
         "internalType": "string",
         "name": "contentId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
         "type": "string"
       },
       {
@@ -90,6 +108,12 @@
         "type": "string"
       },
       {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
+        "type": "string"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "owner",
@@ -118,6 +142,12 @@
         "indexed": true,
         "internalType": "string",
         "name": "contentId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentIdString",
         "type": "string"
       },
       {

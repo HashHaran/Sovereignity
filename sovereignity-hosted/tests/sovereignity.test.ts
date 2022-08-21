@@ -6,7 +6,7 @@ import {
   createContentCreationEvent, createContentDeletionEvent, createPermissionGrantedEvent, createPermissionRevokedEvent, createOwnershipTransferedEvent
 } from "../src/sovereignity"
 
-const contentId1 = "QmY7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU";
+const contentId1 = "bafybeib2c4vv7dxkqljyo3c5pmqlq5xrnk7qgnqlprmnlg3z4k2ooblzt4";
 const localHardhatAddress1 = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 const localHardhatAddress2 = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
 const localHardhatAddress3 = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";

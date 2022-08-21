@@ -6,7 +6,7 @@ dataSources:
     name: Sovereignity
     network: mumbai
     source:
-      address: "0x174f09E67a34C9d712D0b0436eAbFd249A6191f3"
+      address: "0x341FEbb7431Fe373e6Afe2Adf0d9f46DB11e88DF"
       abi: Sovereignity
       startBlock: 27440356
     mapping:
@@ -20,14 +20,14 @@ dataSources:
         - name: Sovereignity
           file: Sovereignity/abis/Sovereignity.json
       eventHandlers:
-        - event: ContentCreation(indexed string,indexed address,uint256)
+        - event: ContentCreation(indexed string,string,indexed address,uint256)
           handler: handleContentCreation
-        - event: ContentDeletion(indexed string,indexed address,uint256)
+        - event: ContentDeletion(indexed string,string,indexed address,uint256)
           handler: handleContentDeletion
-        - event: OwnershipTransfered(indexed string,indexed address,indexed address,uint256)
+        - event: OwnershipTransfered(indexed string,string,indexed address,indexed address,uint256)
           handler: handleOwnershipTransfered
-        - event: PermissionGranted(indexed string,indexed address,indexed address,uint256)
+        - event: PermissionGranted(indexed string,string,indexed address,indexed address,uint256)
           handler: handlePermissionGranted
-        - event: PermissionRevoked(indexed string,indexed address,indexed address,uint256)
+        - event: PermissionRevoked(indexed string,string,indexed address,indexed address,uint256)
           handler: handlePermissionRevoked
       file: Sovereignity/Sovereignity.wasm
