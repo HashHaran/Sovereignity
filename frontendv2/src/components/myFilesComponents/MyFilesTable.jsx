@@ -1,5 +1,5 @@
 import { Box, Checkbox, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -58,31 +58,38 @@ function MyFilesTable(props) {
         // onError: onTheGraphError
     });
 
-    if (props.rows.length==0 && props.owner) {
-        if (error) console.error(`Error during The Graph query: ${error}`);
-        if (data) {
-            console.log("data");
-            console.log(data);
-            let web3StatusPromises = [];
-            for (let content of data.contents) {
-                web3StatusPromises.push(props.web3storage.getStatus(content.contentId));
+    useEffect(() => {
+        if (props.rows.length == 0 && props.owner && !props.myFilesQueryCompleted) {
+
+            if (error) console.error(`Error during The Graph query: ${error}`);
+            if (data) {
+                console.log("data");
+                console.log(data);
+                if (data.contents.length != 0) {
+                    let web3StatusPromises = [];
+                    for (let content of data.contents) {
+                        web3StatusPromises.push(props.web3storage.getStatus(content.contentId));
+                    }
+                    Promise.all(web3StatusPromises).then((statuses) => {
+                        console.log("statuses");
+                        console.log(statuses);
+                        let rows = [];
+                        statuses.forEach((status, i) => {
+                            let row = { content: data.contents[i] };
+                            row.web3StorageStatus = status;
+                            rows.push(row);
+                            console.log("rows");
+                            console.log(rows);
+                        });
+                        props.setRows(rows);
+                        props.setMyFilesQueryCompleted(true);
+                    });
+                } else {
+                    props.setMyFilesQueryCompleted(true);
+                }
             }
-            Promise.all(web3StatusPromises).then((statuses) => {
-                console.log("statuses");
-                console.log(statuses);
-                let rows = [];
-                statuses.forEach((status, i) => {
-                    let row = { content: data.contents[i] };
-                    row.web3StorageStatus = status;
-                    rows.push(row);
-                    console.log("rows");
-                    console.log(rows);
-                });
-                props.setRows(rows);
-                props.setMyFilesQueryCompleted(true);
-            });
-        };
-    }
+        }
+    });
 
     const activeDealsCount = (deals) => {
         let dealCount = 0;

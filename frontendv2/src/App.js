@@ -46,7 +46,7 @@ function App() {
           <Box sx={{ height: '150px' }} />
           <Routes>
             <Route path='/' element={<MyFiles provider={provider} owner={owner} uploadProgress={uploadProgress} web3storage={web3storage} />} />
-            <Route path='/shared' element={<SharedFiles />} />
+            <Route path='/shared' element={<SharedFiles permittedUser={owner} />} />
             <Route path='/mySharedFiles/:cid' element={<MySharedFiles sovereignity = {web3storage?.sovereignity} />} />
           </Routes>
         </Router>

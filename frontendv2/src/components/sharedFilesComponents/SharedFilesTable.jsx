@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,6 +8,22 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { useQuery, gql } from '@apollo/client';
+import { convertEpochTimeToDateTime } from '../../lib/helper';
+
+const GET_SHARED_FILES = gql`
+    query GetSharedFiles($permittedUser: String!) {
+        contentPermissions(where: {permittedUser: $permittedUser}) {
+            id
+            content {
+                id
+                contentId
+                owner
+            }
+            permittedUser
+            permittedTimeStamp
+        }
+    }`;
 
 function SharedFilesTable(props) {
 
@@ -21,6 +37,23 @@ function SharedFilesTable(props) {
     ];
 
     const [selected, setSelected] = React.useState();
+
+    let permittedUser = props.permittedUser;
+    console.log('Before firing query: %s', permittedUser);
+    const { loading, error, data } = useQuery(GET_SHARED_FILES, {
+        variables: { permittedUser },
+        skip: !props.permittedUser
+    });
+
+    useEffect(() => {
+        if (error) {
+            console.log(`Error while fetching file permissions for user: ${props.permittedUser} from the graph`);
+        }
+
+        if (data) {
+            console.log(data);
+        }
+    });
 
     const isSelected = (cid) => selected === cid;
 
@@ -42,14 +75,14 @@ function SharedFilesTable(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => {
-                                const isItemSelected = isSelected(row.cid);
+                            {data?.contentPermissions.map((contentPermission) => {
+                                const isItemSelected = isSelected(contentPermission.content.contentId);
                                 return (
                                     <TableRow
-                                        key={row.cid}
+                                        key={contentPermission.content.contentId}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         hover
-                                        onClick={(event) => setSelected(row.cid)}
+                                        onClick={(event) => setSelected(contentPermission.content.contentId)}
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}
@@ -61,18 +94,21 @@ function SharedFilesTable(props) {
                                             />
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {row.name}
+                                            {contentPermission.content.name}
                                         </TableCell>
-                                        <TableCell component="th" scope="row" align="right">{row.cid}</TableCell>
-                                        <TableCell align="right">{row.ownerPublicKey}</TableCell>
-                                        <TableCell align="right">{row.dateTime}</TableCell>
+                                        <TableCell component="th" scope="row" align="right">{contentPermission.content.contentId}</TableCell>
+                                        <TableCell align="right">{contentPermission.content.owner}</TableCell>
+                                        <TableCell align="right">{convertEpochTimeToDateTime(contentPermission.permittedTimeStamp)}</TableCell>
                                     </TableRow>
                                 );
                             })}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {rows.length == 0 && <React.Fragment><Box height={'30px'}></Box><Typography>You do not have any files shared by others in Sovereignity. When someone shares a file it will appear here.</Typography></React.Fragment>}
+                {!props.permittedUser && <React.Fragment><Box height={'30px'}></Box><Typography>Connect to your wallet to see files shared with you.</Typography></React.Fragment>}
+                {!error && !loading && data?.contentPermissions.length==0 && <React.Fragment><Box height={'30px'}></Box><Typography>You do not have any files shared with others in Sovereignity. Click on the share button on home page to get started.</Typography></React.Fragment>}
+                {error && <React.Fragment><Box height={'30px'}></Box><Typography>Error while fetching details about your files.</Typography></React.Fragment>}
+                {loading && <React.Fragment><Box height={'30px'}></Box><Typography>Loading...</Typography></React.Fragment>}
             </Box>
         </Box>
     )

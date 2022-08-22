@@ -1,9 +1,9 @@
 import React from 'react'
 import SharedFilesTable from './sharedFilesComponents/SharedFilesTable'
 
-function SharedFiles() {
+function SharedFiles(props) {
     return (
-        <SharedFilesTable />
+        <SharedFilesTable permittedUser={props.permittedUser} />
     )
 }
 
