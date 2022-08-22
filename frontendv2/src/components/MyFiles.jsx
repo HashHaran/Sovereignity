@@ -55,7 +55,7 @@ function MyFiles(props) {
             </Container>
             <FileOptionsBar handleFileSharingWindowOpen={handleFileSharingWindowOpen} selectedCid={selectedCid} handleFileDownload={handleFileDownload} />
             <ShareFileWindow open={fileSharingWindowOpen} handleClose={handleFileSharingWindowClose} selected={selectedFileName} onShareFileWithUser={onShareFileWithUser} />
-            <MyFilesTable owner={props.owner} selected={selectedCid} setSelected={setSelectedCid} setSelectedFileName={setSelectedFileName} web3storage={props.web3storage} rows={rows} setRows={setRows} myFilesQueryCompleted={myFilesQueryCompleted} setMyFilesQueryCompleted={setMyFilesQueryCompleted} />
+            <MyFilesTable owner={props.owner} selected={selectedCid} setSelected={setSelectedCid} setSelectedFileName={setSelectedFileName} web3storage={props.web3storage} rows={rows} setRows={setRows} myFilesQueryCompleted={myFilesQueryCompleted} setMyFilesQueryCompleted={setMyFilesQueryCompleted} myFilesWeb3StorageStatus={props.myFilesWeb3StorageStatus} setMyFilesWeb3StorageStatus={props.setMyFilesWeb3StorageStatus} />
         </React.Fragment>
     )
 }

@@ -20,6 +20,7 @@ function App() {
   const [owner, setOwner] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [web3storage, setWeb3storage] = useState();
+  const [myFilesWeb3StorageStatus, setMyFilesWeb3StorageStatus] = useState(new Map());
 
   const setStuffBasedOnWallet = (provider, owner) => {
     setProvider(provider);
@@ -45,7 +46,7 @@ function App() {
           <NavigationBar setStuffBasedOnWallet={setStuffBasedOnWallet} />
           <Box sx={{ height: '150px' }} />
           <Routes>
-            <Route path='/' element={<MyFiles provider={provider} owner={owner} uploadProgress={uploadProgress} web3storage={web3storage} />} />
+            <Route path='/' element={<MyFiles provider={provider} owner={owner} uploadProgress={uploadProgress} web3storage={web3storage} myFilesWeb3StorageStatus={myFilesWeb3StorageStatus} setMyFilesWeb3StorageStatus={setMyFilesWeb3StorageStatus} />} />
             <Route path='/shared' element={<SharedFiles permittedUser={owner} />} />
             <Route path='/mySharedFiles/:cid' element={<MySharedFiles sovereignity = {web3storage?.sovereignity} />} />
           </Routes>

@@ -27,15 +27,6 @@ const GET_SHARED_FILES = gql`
 
 function SharedFilesTable(props) {
 
-    function createData(name, cid, ownerPublicKey, dateTime) {
-        return { name, cid, ownerPublicKey, dateTime };
-    }
-
-    const rows = [
-        createData('Top Secret 1', 'bafy98w747jfkjsdf8ur498dkfhsd', '0x8737efwi7r44876rw8guwyefgu3', '14-08-2022 19:11'),
-        createData('Top Secret 2', 'bafy98498kdjsfk9924809r9hfdh8', '0xisjhf87er8ewgf8w7r687egfif9w', '14-08-2022 19:11'),
-    ];
-
     const [selected, setSelected] = React.useState();
 
     let permittedUser = props.permittedUser;

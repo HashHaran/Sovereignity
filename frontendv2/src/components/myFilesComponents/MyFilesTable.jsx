@@ -68,22 +68,44 @@ function MyFilesTable(props) {
                 if (data.contents.length != 0) {
                     let web3StatusPromises = [];
                     for (let content of data.contents) {
-                        web3StatusPromises.push(props.web3storage.getStatus(content.contentId));
+                        if (!props.myFilesWeb3StorageStatus.get(content.contentId)) {
+                            web3StatusPromises.push(props.web3storage.getStatus(content.contentId));
+                        }
                     }
-                    Promise.all(web3StatusPromises).then((statuses) => {
-                        console.log("statuses");
-                        console.log(statuses);
-                        let rows = [];
-                        statuses.forEach((status, i) => {
-                            let row = { content: data.contents[i] };
-                            row.web3StorageStatus = status;
+
+                    let rows = [];
+                    if (web3StatusPromises.length != 0) {
+                        Promise.all(web3StatusPromises).then((statuses) => {
+                            console.log("statuses");
+                            console.log(statuses);
+                            let statusMap = new Map();
+                            statuses.forEach((status) => {
+                                statusMap.set(status.cid, status);
+                            });
+                            props.setMyFilesWeb3StorageStatus(statusMap);
+
+                            for (let content of data.contents) {
+                                let row = { content: content };
+                                row.web3StorageStatus = statusMap.get(content.contentId);
+                                rows.push(row);
+                                console.log("rows");
+                                console.log(rows);
+                            }
+    
+                            props.setRows(rows);
+                            props.setMyFilesQueryCompleted(true);
+                        });
+                    } else {
+                        for (let content of data.contents) {
+                            let row = { content: content };
+                            row.web3StorageStatus = props.myFilesWeb3StorageStatus.get(content.contentId);
                             rows.push(row);
                             console.log("rows");
                             console.log(rows);
-                        });
+                        }
                         props.setRows(rows);
                         props.setMyFilesQueryCompleted(true);
-                    });
+                    }
                 } else {
                     props.setMyFilesQueryCompleted(true);
                 }
