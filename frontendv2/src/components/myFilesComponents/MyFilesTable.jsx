@@ -54,8 +54,7 @@ function MyFilesTable(props) {
     const { loading, error, data } = useQuery(GET_MY_FILES, {
         variables: { owner },
         skip: !props.owner,
-        // onCompleted: onTheGraphQueryCompleted,
-        // onError: onTheGraphError
+        fetchPolicy: 'cache-and-network'
     });
 
     useEffect(() => {

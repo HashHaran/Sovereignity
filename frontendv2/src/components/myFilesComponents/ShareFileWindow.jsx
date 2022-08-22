@@ -51,7 +51,7 @@ function ShareFileWindow(props) {
                         Public Key of User:
                     </Typography>
                     <TextField
-                        onChange={setUserPublicKey}
+                        onChange={(event) => setUserPublicKey(event.target.value)}
                         required
                         id="outlined-required"
                         label="required"

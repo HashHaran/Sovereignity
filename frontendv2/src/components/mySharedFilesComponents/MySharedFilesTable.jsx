@@ -32,7 +32,8 @@ function MySharedFilesTable(props) {
     let cid = props.cid;
     console.log('Before firing query: %s', cid);
     const { loading, error, data } = useQuery(GET_MY_SHARED_FILES, {
-        variables: { contentId: props.cid }
+        variables: { contentId: props.cid },
+        fetchPolicy: 'cache-and-network'
     });
 
     if (error) {
@@ -97,7 +98,7 @@ function MySharedFilesTable(props) {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {!error && !loading && data.contents[0].permissions.length==0 && <React.Fragment><Box height={'30px'}></Box><Typography>You do not have any files shared with others in Sovereignity. Click on the share button on home page to get started.</Typography></React.Fragment>}
+                {!error && !loading && data.contents[0].permissions.length==0 && <React.Fragment><Box height={'30px'}></Box><Typography>You do not have this file shared with others in Sovereignity. Click on the share button on home page to get started.</Typography></React.Fragment>}
                 {error && <React.Fragment><Box height={'30px'}></Box><Typography>Error while fetching details about your files.</Typography></React.Fragment>}
                 {loading && <React.Fragment><Box height={'30px'}></Box><Typography>Loading...</Typography></React.Fragment>}
             </Box>

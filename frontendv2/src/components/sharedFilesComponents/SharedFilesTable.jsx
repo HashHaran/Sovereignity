@@ -33,7 +33,8 @@ function SharedFilesTable(props) {
     console.log('Before firing query: %s', permittedUser);
     const { loading, error, data } = useQuery(GET_SHARED_FILES, {
         variables: { permittedUser },
-        skip: !props.permittedUser
+        skip: !props.permittedUser,
+        fetchPolicy: 'cache-and-network'
     });
 
     useEffect(() => {
@@ -97,7 +98,7 @@ function SharedFilesTable(props) {
                     </Table>
                 </TableContainer>
                 {!props.permittedUser && <React.Fragment><Box height={'30px'}></Box><Typography>Connect to your wallet to see files shared with you.</Typography></React.Fragment>}
-                {!error && !loading && data?.contentPermissions.length==0 && <React.Fragment><Box height={'30px'}></Box><Typography>You do not have any files shared with others in Sovereignity. Click on the share button on home page to get started.</Typography></React.Fragment>}
+                {!error && !loading && data?.contentPermissions.length==0 && <React.Fragment><Box height={'30px'}></Box><Typography>You do not have any files shared with you in Sovereignity. When someone shares a file with you it wil appear here.</Typography></React.Fragment>}
                 {error && <React.Fragment><Box height={'30px'}></Box><Typography>Error while fetching details about your files.</Typography></React.Fragment>}
                 {loading && <React.Fragment><Box height={'30px'}></Box><Typography>Loading...</Typography></React.Fragment>}
             </Box>
