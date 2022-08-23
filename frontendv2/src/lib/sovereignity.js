@@ -328,4 +328,8 @@ export class Sovereignity {
   async revokePermissionToContent(contentId, permittedUser) {
     await this.sovereignityContract.revokePermission(contentId, permittedUser);
   }
+
+  async deleteContent(contentId, permittedUsers) {
+    await this.sovereignityContract.deleteContent(contentId, permittedUsers);
+  }
 }

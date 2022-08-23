@@ -25,30 +25,6 @@ function MyFilesTable(props) {
 
     const isSelected = (contentId) => props.selected === contentId;
 
-    // const onTheGraphQueryCompleted = (data) => {
-    //     let web3StatusPromises = [];
-    //     for (let content of data.contents) {
-    //         web3StatusPromises.push(props.web3storage.getStatus(content.contentId));
-    //     }
-    //     Promise.all(web3StatusPromises).then((statuses) => {
-    //         statuses.forEach((status, i) => {
-    //             let row = { content: data.contents[i] };
-    //             console.log("status");
-    //             console.log(status);
-    //             row.web3StorageStatus = status;
-    //             rows.push(row);
-    //             console.log("rows");
-    //             console.log(rows);
-    //         });
-    //         props.setMyFilesQueryCompleted(true);
-    //     });
-    // }
-
-    // const onTheGraphError = (error) => {
-    //     console.error(`Error during The Graph query: ${error}`);
-    // }
-                
-
     let owner = props.owner;
     console.log('Before firing query: %s', owner);
     const { loading, error, data } = useQuery(GET_MY_FILES, {

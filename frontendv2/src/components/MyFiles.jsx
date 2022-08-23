@@ -6,6 +6,8 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import MyFilesTable from './myFilesComponents/MyFilesTable';
 import ShareFileWindow from './myFilesComponents/ShareFileWindow';
 import { Container } from '@mui/system';
+import { getPermittedUsersForContent } from '../lib/helper';
+import { useApolloClient } from '@apollo/client';
 
 function MyFiles(props) {
 
@@ -17,6 +19,7 @@ function MyFiles(props) {
     const [rows, setRows] = React.useState([]);
     const [myFilesQueryCompleted, setMyFilesQueryCompleted] = React.useState(false);
 
+    const apolloClient = useApolloClient();
 
     const handleFileSharingWindowOpen = () => setFileSharingWindowOpen(true);
     const handleFileSharingWindowClose = () => setFileSharingWindowOpen(false);
@@ -33,6 +36,12 @@ function MyFiles(props) {
 
     const handleFileDownload = (e) => {
         props.web3storage.downloadDecryptedFile(selectedCid);
+    }
+
+    const handleFileDelete = async () => {
+        const permittedUsers = await getPermittedUsersForContent(selectedCid, apolloClient);
+        console.log(permittedUsers);
+        await props.web3storage?.sovereignity.deleteContent(selectedCid, permittedUsers);
     }
 
     const onShareFileWithUser = (userPublicKey) => {
@@ -53,7 +62,7 @@ function MyFiles(props) {
                     onClick={(e) => e.target.value = null}
                 /></Button>
             </Container>
-            <FileOptionsBar handleFileSharingWindowOpen={handleFileSharingWindowOpen} selectedCid={selectedCid} handleFileDownload={handleFileDownload} />
+            <FileOptionsBar handleFileSharingWindowOpen={handleFileSharingWindowOpen} selectedCid={selectedCid} handleFileDownload={handleFileDownload} handleFileDelete={handleFileDelete} />
             <ShareFileWindow open={fileSharingWindowOpen} handleClose={handleFileSharingWindowClose} selected={selectedFileName} onShareFileWithUser={onShareFileWithUser} />
             <MyFilesTable owner={props.owner} selected={selectedCid} setSelected={setSelectedCid} setSelectedFileName={setSelectedFileName} web3storage={props.web3storage} rows={rows} setRows={setRows} myFilesQueryCompleted={myFilesQueryCompleted} setMyFilesQueryCompleted={setMyFilesQueryCompleted} myFilesWeb3StorageStatus={props.myFilesWeb3StorageStatus} setMyFilesWeb3StorageStatus={props.setMyFilesWeb3StorageStatus} />
         </React.Fragment>
