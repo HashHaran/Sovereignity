@@ -88,7 +88,7 @@ describe("handlePermissionGranted()", () => {
     })
 
     test("Should change the owner of the content", () => {
-      assert.fieldEquals("Content", Bytes.fromUTF8(contentId1).toHexString(), "owner", Address.fromString(localHardhatAddress1).toHexString());
+      assert.fieldEquals("Content", Bytes.fromUTF8(contentId1).toHexString(), "owner", Address.fromString(localHardhatAddress3).toHexString());
     })
   })
 })

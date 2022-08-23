@@ -60,7 +60,7 @@ export function handleContentDeletion(event: ContentDeletion): void {
 export function handleOwnershipTransfered(event: OwnershipTransfered): void {
   let contentEntity = Content.load(event.params.contentId);
   if (contentEntity != null) {
-    contentEntity.owner = event.params.owner;
+    contentEntity.owner = event.params.newOwner;
     contentEntity.save();
   }
 }
