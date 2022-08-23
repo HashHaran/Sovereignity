@@ -59,7 +59,7 @@ export default class MyfilesDAO {
 
     static async updateContentOwner(contentId, owner) {
         try {
-            return await myfiles.updateOne({contentId}, { $set: {owner} })
+            return await myfiles.updateOne({contentId, active: true}, { $set: {owner} })
         } catch (e) {
             console.error(`Unable to update owner for contentId: ${contentId}, owner: ${owner}, ERROR: ${e}`)
         }
