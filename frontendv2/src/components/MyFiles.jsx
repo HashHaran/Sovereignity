@@ -8,6 +8,7 @@ import ShareFileWindow from './myFilesComponents/ShareFileWindow';
 import { Container } from '@mui/system';
 import { getPermittedUsersForContent } from '../lib/helper';
 import { useApolloClient } from '@apollo/client';
+import TransferFileWindow from './myFilesComponents/TransferFileWindow';
 
 function MyFiles(props) {
 
@@ -15,6 +16,7 @@ function MyFiles(props) {
     const [selectedFileName, setSelectedFileName] = React.useState();
 
     const [fileSharingWindowOpen, setFileSharingWindowOpen] = React.useState(false);
+    const [fileTransferWindowOpen, setFileTransferWindowOpen] = React.useState(false);
 
     const [rows, setRows] = React.useState([]);
     const [myFilesQueryCompleted, setMyFilesQueryCompleted] = React.useState(false);
@@ -23,6 +25,9 @@ function MyFiles(props) {
 
     const handleFileSharingWindowOpen = () => setFileSharingWindowOpen(true);
     const handleFileSharingWindowClose = () => setFileSharingWindowOpen(false);
+
+    const handleFileTransferWindowOpen = () => setFileTransferWindowOpen(true);
+    const handleFileTransferWindowClose = () => setFileTransferWindowOpen(false);
 
     const handleFileUpload = (e) => {
         if (!e.target.files) {
@@ -50,11 +55,17 @@ function MyFiles(props) {
         });
     }
 
+    const onTransferFileToUser = async (userPublicKey) => {
+        const permittedUsers = await getPermittedUsersForContent(selectedCid, apolloClient);
+        console.log(permittedUsers);
+        await props.web3storage?.sovereignity.transferContent(selectedCid, userPublicKey, permittedUsers);
+        console.log(`Content Transfered to: ${userPublicKey}`);
+    }
+
     return (
         <React.Fragment>
             <ProgressBarUpload progress={props.uploadProgress} />
             <Container sx={{ mb: 4 }}>
-                {/* <Input classes={classes.fileInput} sx={{ mr: 4 }} onChange={handleFileUpload} type='file' color='primary'><FileUploadIcon /> Upload</Input> */}
                 <Button variant='contained' component="label"><FileUploadIcon /> Upload<input
                     type="file"
                     hidden
@@ -62,8 +73,9 @@ function MyFiles(props) {
                     onClick={(e) => e.target.value = null}
                 /></Button>
             </Container>
-            <FileOptionsBar handleFileSharingWindowOpen={handleFileSharingWindowOpen} selectedCid={selectedCid} handleFileDownload={handleFileDownload} handleFileDelete={handleFileDelete} />
+            <FileOptionsBar handleFileTransferWindowOpen={handleFileTransferWindowOpen} handleFileSharingWindowOpen={handleFileSharingWindowOpen} selectedCid={selectedCid} handleFileDownload={handleFileDownload} handleFileDelete={handleFileDelete} />
             <ShareFileWindow open={fileSharingWindowOpen} handleClose={handleFileSharingWindowClose} selected={selectedFileName} onShareFileWithUser={onShareFileWithUser} />
+            <TransferFileWindow open={fileTransferWindowOpen} handleClose={handleFileTransferWindowClose} selected={selectedFileName} onTransferFileToUser={onTransferFileToUser} />
             <MyFilesTable owner={props.owner} selected={selectedCid} setSelected={setSelectedCid} setSelectedFileName={setSelectedFileName} web3storage={props.web3storage} rows={rows} setRows={setRows} myFilesQueryCompleted={myFilesQueryCompleted} setMyFilesQueryCompleted={setMyFilesQueryCompleted} myFilesWeb3StorageStatus={props.myFilesWeb3StorageStatus} setMyFilesWeb3StorageStatus={props.setMyFilesWeb3StorageStatus} />
         </React.Fragment>
     )

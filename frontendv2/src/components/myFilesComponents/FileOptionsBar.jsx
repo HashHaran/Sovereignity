@@ -4,6 +4,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import ShareIcon from '@mui/icons-material/Share';
 import ListIcon from '@mui/icons-material/List';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import IosShareIcon from '@mui/icons-material/IosShare';
 import { useNavigate } from 'react-router-dom';
 
 function FileOptionsBar(props) {
@@ -13,7 +14,8 @@ function FileOptionsBar(props) {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box sx={{ width: '60%', display: 'flex', justifyContent: 'right' }}>
-                <Button sx={{mr: 1}} onClick={props.handleFileSharingWindowOpen} variant='contained'><ShareIcon />Share</Button>
+                <Button sx={{ mr: 1 }} onClick={props.handleFileSharingWindowOpen} variant='contained'><ShareIcon />Share</Button>
+                <Button sx={{mr: 1}} onClick={props.handleFileTransferWindowOpen} variant='contained'><IosShareIcon />Transfer</Button>
                 <Button sx={{mr: 1}} onClick={(event) => {
                     event.preventDefault();
                     navigate('/mySharedFiles/'.concat(props.selectedCid));

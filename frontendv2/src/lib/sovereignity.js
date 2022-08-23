@@ -332,4 +332,8 @@ export class Sovereignity {
   async deleteContent(contentId, permittedUsers) {
     await this.sovereignityContract.deleteContent(contentId, permittedUsers);
   }
+
+  async transferContent(contentId, newOwner, permittedUsers) {
+    await this.sovereignityContract.transferOwnership(contentId, newOwner, permittedUsers)
+  }
 }
