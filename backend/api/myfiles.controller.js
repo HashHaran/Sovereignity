@@ -54,9 +54,10 @@ export default class MyfilesController {
 
     static async apiUpdateContent(req, res, next) {
         try {
-            if (req.body.contentId && req.body.owner) {
-                const contentId = req.body.contentId;
-                const owner = req.body.owner;
+            console.log(req.body);
+            if (req.body.data.contentId && req.body.data.owner) {
+                const contentId = req.body.data.contentId;
+                const owner = req.body.data.owner;
                 const updateResponse = await MyfilesDAO.updateContentOwner(contentId, owner);
                 res.json({ status: "success" });
             } else {
