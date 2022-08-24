@@ -7,7 +7,7 @@ function SharedFiles(props) {
     const [sharedFilesQueryCompleted, setSharedFilesQueryCompleted] = React.useState(false);
 
     return (
-        <SharedFilesTable permittedUser={props.permittedUser} rows = {rows} setRows = {setRows} sharedFilesQueryCompleted = {sharedFilesQueryCompleted} setSharedFilesQueryCompleted = {setSharedFilesQueryCompleted} sharedFilesName={props.sharedFilesName} setSharedFilesName={props.setSharedFilesName}  />
+        <SharedFilesTable web3storage={props.web3storage} permittedUser={props.permittedUser} rows = {rows} setRows = {setRows} sharedFilesQueryCompleted = {sharedFilesQueryCompleted} setSharedFilesQueryCompleted = {setSharedFilesQueryCompleted} sharedFilesName={props.sharedFilesName} setSharedFilesName={props.setSharedFilesName}  />
     )
 }
 
