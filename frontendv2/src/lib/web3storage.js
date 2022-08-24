@@ -2,9 +2,7 @@ import lit from './lit';
 import { Sovereignity } from './sovereignity';
 
 import { Web3Storage } from 'web3.storage/dist/bundle.esm.min.js'
-// import * as dotenv from "dotenv";
-// dotenv.config();
-// console.log(process.env);
+import contentDataService from './contentDataService';
 
 const REACT_APP_WEB3_STORAGE_API_KEY = process.env.REACT_APP_WEB3_STORAGE_API_KEY;
 const REACT_APP_SOVEREIGNITY_MUMBAI = process.env.REACT_APP_SOVEREIGNITY_MUMBAI;
@@ -40,12 +38,13 @@ export default class Web3storage {
     this.uploaded = 0;
   }
 
-  async uploadEncryptedFileAndAddContent(files) {
+  async uploadEncryptedFileAndAddContent(files, owner) {
     for (let file of files) {
       var { contentId, encryptedSymmetricKey } = await lit.encryptAndUploadFile(file, storage, this.onRootCidReady, this.onStoredChunk, REACT_APP_SOVEREIGNITY_MUMBAI, this.setTotalSizeOfEncryptedFile);
       console.log(encryptedSymmetricKey);  //TODO: store this somewhere to decrypt when user tries to retreive the file
       console.log(contentId);
-      this.sovereignity.addContent(contentId);
+      await this.sovereignity.addContent(contentId);
+      contentDataService.createContent(contentId, encryptedSymmetricKey, file.name, owner);
     }
   }
 

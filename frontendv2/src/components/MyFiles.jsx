@@ -34,7 +34,7 @@ function MyFiles(props) {
             return;
         }
         // console.log(e.target.files[0]);
-        props.web3storage.uploadEncryptedFileAndAddContent(e.target.files).then(() => {
+        props.web3storage.uploadEncryptedFileAndAddContent(e.target.files, props.owner).then(() => {
             console.log('Done uploading and adding content');
         });
     };
