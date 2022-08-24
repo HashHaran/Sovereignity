@@ -9,6 +9,7 @@ import { Container } from '@mui/system';
 import { getPermittedUsersForContent } from '../lib/helper';
 import { useApolloClient } from '@apollo/client';
 import TransferFileWindow from './myFilesComponents/TransferFileWindow';
+import contentDataService from '../lib/contentDataService';
 
 function MyFiles(props) {
 
@@ -47,6 +48,8 @@ function MyFiles(props) {
         const permittedUsers = await getPermittedUsersForContent(selectedCid, apolloClient);
         console.log(permittedUsers);
         await props.web3storage?.sovereignity.deleteContent(selectedCid, permittedUsers);
+        await contentDataService.markContentInactive(selectedCid);
+        console.log(`Content marked inactive cid: ${selectedCid}`);
     }
 
     const onShareFileWithUser = (userPublicKey) => {
@@ -59,6 +62,7 @@ function MyFiles(props) {
         const permittedUsers = await getPermittedUsersForContent(selectedCid, apolloClient);
         console.log(permittedUsers);
         await props.web3storage?.sovereignity.transferContent(selectedCid, userPublicKey, permittedUsers);
+        await contentDataService.updateContentOwner(selectedCid, userPublicKey);
         console.log(`Content Transfered to: ${userPublicKey}`);
     }
 

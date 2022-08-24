@@ -59,7 +59,7 @@ function MyFilesTable(props) {
                             Promise.all(web3StatusPromises).then((statuses) => {
                                 console.log("statuses");
                                 console.log(statuses);
-                                let statusMap = new Map();
+                                let statusMap = props.myFilesWeb3StorageStatus;
                                 statuses.forEach((status) => {
                                     statusMap.set(status.cid, status);
                                 });
