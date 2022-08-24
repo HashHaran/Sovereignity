@@ -6,9 +6,9 @@ dataSources:
     name: Sovereignity
     network: mumbai
     source:
-      address: "0x341FEbb7431Fe373e6Afe2Adf0d9f46DB11e88DF"
+      address: "0xf6Cc81CDa01a1D933beAf1C66F7e567B4CDFE543"
       abi: Sovereignity
-      startBlock: 27440356
+      startBlock: 27759319
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
