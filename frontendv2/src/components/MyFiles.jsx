@@ -73,7 +73,7 @@ function MyFiles(props) {
                     onClick={(e) => e.target.value = null}
                 /></Button>
             </Container>
-            <FileOptionsBar handleFileTransferWindowOpen={handleFileTransferWindowOpen} handleFileSharingWindowOpen={handleFileSharingWindowOpen} selectedCid={selectedCid} handleFileDownload={handleFileDownload} handleFileDelete={handleFileDelete} />
+            <FileOptionsBar handleFileTransferWindowOpen={handleFileTransferWindowOpen} handleFileSharingWindowOpen={handleFileSharingWindowOpen} selectedCid={selectedCid} selectedFileName={selectedFileName} handleFileDownload={handleFileDownload} handleFileDelete={handleFileDelete} />
             <ShareFileWindow open={fileSharingWindowOpen} handleClose={handleFileSharingWindowClose} selected={selectedFileName} onShareFileWithUser={onShareFileWithUser} />
             <TransferFileWindow open={fileTransferWindowOpen} handleClose={handleFileTransferWindowClose} selected={selectedFileName} onTransferFileToUser={onTransferFileToUser} />
             <MyFilesTable owner={props.owner} selected={selectedCid} setSelected={setSelectedCid} setSelectedFileName={setSelectedFileName} web3storage={props.web3storage} rows={rows} setRows={setRows} myFilesQueryCompleted={myFilesQueryCompleted} setMyFilesQueryCompleted={setMyFilesQueryCompleted} myFilesWeb3StorageStatus={props.myFilesWeb3StorageStatus} setMyFilesWeb3StorageStatus={props.setMyFilesWeb3StorageStatus} />

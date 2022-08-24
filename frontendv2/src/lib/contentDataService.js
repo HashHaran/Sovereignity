@@ -2,23 +2,23 @@ import http from "./http-common";
 
 class ContentDataService {
     createContent(contentId, encryptedSymKey, name, owner) {
-        http.post("", {contentId, encryptedSymKey, name, owner});
+        return http.post("", {contentId, encryptedSymKey, name, owner});
     }
 
     getContentForOwner(owner) {
-        http.get(`?owner=${owner}`);
+        return http.get(`?owner=${owner}`);
     }
 
     getContentForCid(cid) {
-        http.get(`?cid=${cid}`);
+        return http.get(`?cid=${cid}`);
     }
 
     updateContentOwner(contentId, newOwner) {
-        http.put("", { data: { contentId, owner: newOwner } });
+        return http.put("", { data: { contentId, owner: newOwner } });
     }
 
     markContentInactive(contentId) {
-        http.delete(`?contentId=${contentId}`);
+        return http.delete(`?contentId=${contentId}`);
     }
 }
 

@@ -87,7 +87,7 @@ function MySharedFilesTable(props) {
                                             />
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {permission.name}
+                                            {props.fileName}
                                         </TableCell>
                                         <TableCell component="th" scope="row" align="right">{props.cid}</TableCell>
                                         <TableCell align="right">{permission.permittedUser}</TableCell>

@@ -8,8 +8,6 @@ import MySharedFiles from './components/mySharedFilesComponents/MySharedFiles';
 import { useEffect, useState } from 'react';
 import Web3storage from './lib/web3storage';
 
-// import { ByteArray, Bytes } from '@graphprotocol/graph-ts';
-
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const THE_GRAPH_HOSTED_SERVICE_END_POINT = 'https://api.thegraph.com/subgraphs/name/hashharan/sovereignity';
@@ -21,6 +19,7 @@ function App() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [web3storage, setWeb3storage] = useState();
   const [myFilesWeb3StorageStatus, setMyFilesWeb3StorageStatus] = useState(new Map());
+  const [sharedFilesName, setSharedFilesName] = useState(new Map());
 
   const setStuffBasedOnWallet = (provider, owner) => {
     setProvider(provider);
@@ -47,8 +46,8 @@ function App() {
           <Box sx={{ height: '150px' }} />
           <Routes>
             <Route path='/' element={<MyFiles provider={provider} owner={owner} uploadProgress={uploadProgress} web3storage={web3storage} myFilesWeb3StorageStatus={myFilesWeb3StorageStatus} setMyFilesWeb3StorageStatus={setMyFilesWeb3StorageStatus} />} />
-            <Route path='/shared' element={<SharedFiles permittedUser={owner} />} />
-            <Route path='/mySharedFiles/:cid' element={<MySharedFiles sovereignity = {web3storage?.sovereignity} />} />
+            <Route path='/shared' element={<SharedFiles permittedUser={owner} sharedFilesName={sharedFilesName} setSharedFilesName={setSharedFilesName} />} />
+            <Route path='/mySharedFiles/:cid/:fileName' element={<MySharedFiles sovereignity = {web3storage?.sovereignity} />} />
           </Routes>
         </Router>
       </div >

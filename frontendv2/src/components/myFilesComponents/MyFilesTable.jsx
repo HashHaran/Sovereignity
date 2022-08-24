@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 
 import { useQuery, gql } from '@apollo/client';
 import { convertEpochTimeToDateTime } from '../../lib/helper';
+import contentDataService from '../../lib/contentDataService';
 
 const GET_MY_FILES = gql`
     query GetMyFiles($owner: String!) {
@@ -40,50 +41,57 @@ function MyFilesTable(props) {
             if (data) {
                 console.log("data");
                 console.log(data);
-                if (data.contents.length != 0) {
-                    let web3StatusPromises = [];
-                    for (let content of data.contents) {
-                        if (!props.myFilesWeb3StorageStatus.get(content.contentId)) {
-                            web3StatusPromises.push(props.web3storage.getStatus(content.contentId));
-                        }
+                const contentsFromDBMap = new Map();
+                contentDataService.getContentForOwner(props.owner).then((contentsFromDB) => {
+                    for (let content of contentsFromDB.data.contents) {
+                        contentsFromDBMap.set(content.contentId, content);
                     }
+                    if (data.contents.length != 0) {
+                        let web3StatusPromises = [];
+                        for (let content of data.contents) {
+                            if (!props.myFilesWeb3StorageStatus.get(content.contentId)) {
+                                web3StatusPromises.push(props.web3storage.getStatus(content.contentId));
+                            }
+                        }
 
-                    let rows = [];
-                    if (web3StatusPromises.length != 0) {
-                        Promise.all(web3StatusPromises).then((statuses) => {
-                            console.log("statuses");
-                            console.log(statuses);
-                            let statusMap = new Map();
-                            statuses.forEach((status) => {
-                                statusMap.set(status.cid, status);
+                        let rows = [];
+                        if (web3StatusPromises.length != 0) {
+                            Promise.all(web3StatusPromises).then((statuses) => {
+                                console.log("statuses");
+                                console.log(statuses);
+                                let statusMap = new Map();
+                                statuses.forEach((status) => {
+                                    statusMap.set(status.cid, status);
+                                });
+                                props.setMyFilesWeb3StorageStatus(statusMap);
+
+                                for (let content of data.contents) {
+                                    let row = { content: content };
+                                    row.web3StorageStatus = statusMap.get(content.contentId);
+                                    row.name = contentsFromDBMap.get(content.contentId)?.name;
+                                    rows.push(row);
+                                    console.log("rows");
+                                    console.log(rows);
+                                }
+                                props.setRows(rows);
+                                props.setMyFilesQueryCompleted(true);
                             });
-                            props.setMyFilesWeb3StorageStatus(statusMap);
-
+                        } else {
                             for (let content of data.contents) {
                                 let row = { content: content };
-                                row.web3StorageStatus = statusMap.get(content.contentId);
+                                row.web3StorageStatus = props.myFilesWeb3StorageStatus.get(content.contentId);
+                                row.name = contentsFromDBMap.get(content.contentId)?.name;
                                 rows.push(row);
                                 console.log("rows");
                                 console.log(rows);
                             }
-    
                             props.setRows(rows);
                             props.setMyFilesQueryCompleted(true);
-                        });
-                    } else {
-                        for (let content of data.contents) {
-                            let row = { content: content };
-                            row.web3StorageStatus = props.myFilesWeb3StorageStatus.get(content.contentId);
-                            rows.push(row);
-                            console.log("rows");
-                            console.log(rows);
                         }
-                        props.setRows(rows);
+                    } else {
                         props.setMyFilesQueryCompleted(true);
                     }
-                } else {
-                    props.setMyFilesQueryCompleted(true);
-                }
+                });
             }
         }
     });

@@ -18,7 +18,7 @@ function FileOptionsBar(props) {
                 <Button sx={{mr: 1}} onClick={props.handleFileTransferWindowOpen} variant='contained'><IosShareIcon />Transfer</Button>
                 <Button sx={{mr: 1}} onClick={(event) => {
                     event.preventDefault();
-                    navigate('/mySharedFiles/'.concat(props.selectedCid));
+                    navigate(`/mySharedFiles/${props.selectedCid}/${props.selectedFileName}`);
                 }} variant='contained'><ListIcon />Details</Button>
                 <Button sx={{ mr: 1 }} onClick={props.handleFileDownload} variant='contained'><FileDownloadIcon />Download</Button>
                 <Button onClick={props.handleFileDelete} variant='contained'><DeleteForeverIcon />Delete</Button>

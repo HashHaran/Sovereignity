@@ -5,9 +5,10 @@ import MySharedFilesTable from './MySharedFilesTable'
 function MySharedFiles(props) {
 
     let { cid } = useParams();
+    let { fileName } = useParams();
 
     return (
-        <MySharedFilesTable cid={cid} sovereignity={props.sovereignity} />
+        <MySharedFilesTable cid={cid} fileName={fileName} sovereignity={props.sovereignity} />
     )
 }
 
