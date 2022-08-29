@@ -68,7 +68,7 @@ describe("Sovereignity", function () {
 
         it("Should emit ContentCreation event", async function () {
             const { sovereignity, owner, otherUser, contentId1, contentId2 } = await loadFixture(deploySovereignityFixture);
-            await expect(sovereignity.connect(owner as Signer).addContent(contentId2)).to.emit(sovereignity, "ContentCreation").withArgs(contentId2, await owner.getAddress(), anyValue);
+            await expect(sovereignity.connect(owner as Signer).addContent(contentId2)).to.emit(sovereignity, "ContentCreation").withArgs(contentId2, contentId2, await owner.getAddress(), anyValue);
         });
     });
 
@@ -85,7 +85,7 @@ describe("Sovereignity", function () {
 
         it("Should emit ContentDeletion event", async function () {
             const { sovereignity, owner, permittedUser, otherUser, contentId1, contentId2 } = await loadFixture(deploySovereignityFixture);
-            await expect(sovereignity.connect(owner as Signer).deleteContent(contentId1, [permittedUser.getAddress()])).to.emit(sovereignity, "ContentDeletion").withArgs(contentId1, await owner.getAddress(), anyValue);
+            await expect(sovereignity.connect(owner as Signer).deleteContent(contentId1, [permittedUser.getAddress()])).to.emit(sovereignity, "ContentDeletion").withArgs(contentId1, contentId1, await owner.getAddress(), anyValue);
         });
 
         it("Should revoke all permissions of the content", async function () {
@@ -128,7 +128,7 @@ describe("Sovereignity", function () {
     describe("Award Permission", async function () {
         it("Emits Permission Granted Event", async function () {
             const { sovereignity, owner, otherUser, contentId1, contentId2 } = await loadFixture(deploySovereignityFixture);
-            await expect(sovereignity.connect(owner as Signer).awardPermission(contentId1, otherUser.getAddress())).to.emit(sovereignity, "PermissionGranted").withArgs(contentId1, await owner.getAddress(), await otherUser.getAddress(), anyValue);
+            await expect(sovereignity.connect(owner as Signer).awardPermission(contentId1, otherUser.getAddress())).to.emit(sovereignity, "PermissionGranted").withArgs(contentId1, contentId1, await owner.getAddress(), await otherUser.getAddress(), anyValue);
         });
 
         it("Should not give permission to already permissioned user", async function () {
