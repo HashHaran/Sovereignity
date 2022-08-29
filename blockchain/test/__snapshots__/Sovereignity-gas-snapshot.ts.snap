@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`gas tests gas snapshot for add content 1`] = `
+Object {
+  "calldataByteLength": 132,
+  "gasUsed": 50816,
+}
+`;
+
+exports[`gas tests gas snapshot for award permission 1`] = `
+Object {
+  "calldataByteLength": 164,
+  "gasUsed": 54504,
+}
+`;
+
+exports[`gas tests gas snapshot for delete content 1`] = `
+Object {
+  "calldataByteLength": 196,
+  "gasUsed": 30150,
+}
+`;
+
+exports[`gas tests gas snapshot for is permitted 1`] = `25524`;
+
+exports[`gas tests gas snapshot for owner of 1`] = `25030`;
+
+exports[`gas tests gas snapshot for revoke permission 1`] = `
+Object {
+  "calldataByteLength": 164,
+  "gasUsed": 32616,
+}
+`;
+
+exports[`gas tests gas snapshot for transfer content 1`] = `
+Object {
+  "calldataByteLength": 228,
+  "gasUsed": 35877,
+}
+`;

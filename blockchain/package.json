@@ -34,6 +34,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.1",
     "@uniswap/snapshot-gas-cost": "^1.0.0",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "mocha-chai-jest-snapshot": "^1.1.4"
   }
 }
