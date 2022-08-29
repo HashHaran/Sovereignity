@@ -33,12 +33,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.1",
-    "async_hooks": "^1.0.0",
-    "bootstrap": "^5.2.0",
-    "dotenv": "^16.0.1",
-    "react-bootstrap": "^2.4.0",
-    "react-router-dom": "^6.3.0",
-    "styled-components": "^5.3.5",
-    "web3.storage": "^4.3.0"
+    "@uniswap/snapshot-gas-cost": "^1.0.0",
+    "dotenv": "^16.0.1"
   }
 }
